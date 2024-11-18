@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalComponent from "./ModalComponent";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { selectedMarkerState, isModalOpenState } from "../../recoil/mapState";
 
 // 오버레이 콘텐츠 스타일
 const OverlayContent = styled.div`
@@ -27,8 +29,9 @@ const MapComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [markers, setMarkers] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedMarker, setSelectedMarker] =
+    useRecoilState(selectedMarkerState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
 
   // 더미 데이터
   const dummyMarkers = [
