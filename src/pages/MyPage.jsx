@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Header from "../components/main_component/Header";
+import { useLocation } from "react-router-dom";
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -8,9 +9,10 @@ const MyPageContainer = styled.div`
 `;
 
 const MyPage = () => {
+  const location = useLocation();
   return (
     <MyPageContainer>
-      <Header title="마이페이지" />
+      <Header title={location.state?.parkName} />
     </MyPageContainer>
   );
 };

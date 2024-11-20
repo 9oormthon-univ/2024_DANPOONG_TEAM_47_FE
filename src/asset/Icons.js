@@ -6,6 +6,7 @@ import { ReactComponent as Search } from "./icons/Search.svg";
 import { ReactComponent as Alarm } from "./icons/Alarm.svg";
 import { ReactComponent as Back } from "./icons/Back.svg";
 import { ReactComponent as Star } from "./icons/Star.svg";
+import { ReactComponent as Kakao } from "./icons/Kakao.svg";
 
 const Icons = {
   Home: Home,
@@ -16,6 +17,7 @@ const Icons = {
   Search: Search,
   Back: Back,
   Star: Star,
+  Kakao: Kakao,
 };
 
 export default Icons;

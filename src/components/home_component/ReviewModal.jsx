@@ -29,7 +29,7 @@ const ReviewHeader = styled.div`
   }
 `;
 
-const ReviewInModal = () => {
+const ReviewModal = () => {
   const { marker } = useOutletContext();
   return (
     <ReviewContainer>
@@ -50,4 +50,4 @@ const ReviewInModal = () => {
   );
 };
 
-export default ReviewInModal;
+export default ReviewModal;

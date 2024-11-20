@@ -11,6 +11,7 @@ const ChatList = () => {
   return (
     <ChatListContainer>
       <Header title="채팅" />
+      <p>채팅목록 페이지</p>
     </ChatListContainer>
   );
 };

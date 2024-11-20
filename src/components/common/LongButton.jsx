@@ -6,14 +6,15 @@ const Button = styled.div`
   border-radius: clamp(8px, 2vw, 12px);
   background-color: #5874e9;
   font-size: clamp(13px, 4vw, 15px);
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const LongButton = ({ text, link }) => {
-  return <Button>{text}</Button>;
+const LongButton = ({ text, onClick }) => {
+  return <Button onClick={onClick}>{text}</Button>;
 };
 
 export default LongButton;

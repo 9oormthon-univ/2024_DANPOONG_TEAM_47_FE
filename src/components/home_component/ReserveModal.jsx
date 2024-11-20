@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LongButton from "../common/LongButton";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const ReserveContainer = styled.div`
   display: flex;
@@ -24,8 +24,13 @@ const Content = styled.div`
   font-size: clamp(12px, 3vw, 14px);
 `;
 
-const ReservePage = () => {
+const ReserveModal = () => {
   const { marker } = useOutletContext();
+  const navigate = useNavigate();
+
+  const handleReserveButton = () => {
+    navigate(`/parks/reserve/${marker.id}`);
+  };
   return (
     <ReserveContainer>
       <ReserveContent>
@@ -43,9 +48,9 @@ const ReservePage = () => {
           <p>{marker && marker.price}원</p>
         </Content>
       </ReserveContent>
-      <LongButton text="예약하기" />
+      <LongButton text="예약하기" onClick={handleReserveButton} />
     </ReserveContainer>
   );
 };
 
-export default ReservePage;
+export default ReserveModal;

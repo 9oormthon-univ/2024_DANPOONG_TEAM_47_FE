@@ -12,6 +12,8 @@ import AlarmList from "./pages/AlarmList";
 import ReserveModal from "./components/home_component/ReserveModal";
 import ReviewModal from "./components/home_component/ReviewModal";
 import InfoModal from "./components/home_component/InfoModal";
+import ProtectedRoute from "./components/login_component/ProtectedRoute";
+import ReservePage from "./pages/ReservePage";
 
 const router = createBrowserRouter([
   // Main 페이지에서 공통부분 처리하고, outlet으로 화면 부분 구현.
@@ -52,7 +54,13 @@ const router = createBrowserRouter([
       // "/chats" 채팅 리스트 페이지.
       {
         path: "chats",
-        element: <ChatList />,
+        element: (
+          <ProtectedRoute
+            element={<ChatList />}
+            pageName="채팅"
+            service="채팅"
+          />
+        ),
       },
       // "/chat/채팅방id" 채팅방 페이지.
       {
@@ -62,12 +70,35 @@ const router = createBrowserRouter([
       // "/alarm" 알람 페이지
       {
         path: "alarm",
-        element: <AlarmList />,
+        element: (
+          <ProtectedRoute
+            element={<AlarmList />}
+            pageName="알림"
+            service="알림"
+          />
+        ),
       },
       // "/mypage" 마이 페이지
       {
         path: "mypage",
-        element: <MyPage />,
+        element: (
+          <ProtectedRoute
+            element={<MyPage />}
+            pageName="마이페이지"
+            service="마이페이지"
+          />
+        ),
+      },
+      // "/parks/reserve/:id" 주차장 예약 페이지
+      {
+        path: "parks/reserve/:id",
+        element: (
+          <ProtectedRoute
+            element={<ReservePage />}
+            pageName="공유주차장예약"
+            service="예약"
+          />
+        ),
       },
       // "/parks/new" 주차장 등록 페이지.
       {
