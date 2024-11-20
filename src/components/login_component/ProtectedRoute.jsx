@@ -17,7 +17,6 @@ const ProtectedContainer = styled.div`
 
 const LoginContainer = styled.div`
   flex: 1;
-  background-color: blue;
   display: flex;
   padding: 0 8%;
   justify-content: center;
