@@ -7,13 +7,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+      # Checkout the repository
+      - uses: actions/checkout@v3
+
+      # Install PowerShell (Ubuntu의 경우 PowerShell 설치가 필요할 수 있음)
+      - name: Install PowerShell
+        run: sudo apt-get update && sudo apt-get install -y powershell
+
+      # Run build.ps1
       - name: creates output
-        run: sh ./build.sh
+        run: pwsh ./build.ps1
+
+      # Push to another repository
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -26,5 +33,8 @@ jobs:
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
+
+      # Test the output directory variable
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
+
