@@ -53,7 +53,7 @@ const BottomNav = () => {
           to="/"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/", { replace: true });
+            navigate("/");
           }}
         >
           <IconContainer>
@@ -64,7 +64,7 @@ const BottomNav = () => {
           to="/chats"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/chats", { replace: true });
+            navigate("/chats");
           }}
         >
           <IconContainer>
@@ -75,7 +75,7 @@ const BottomNav = () => {
           to="/alarm"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/alarm", { replace: true });
+            navigate("/alarm");
           }}
         >
           <IconContainer>
@@ -86,7 +86,7 @@ const BottomNav = () => {
           to="/mypage"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/mypage", { replace: true });
+            navigate("/mypage");
           }}
         >
           <IconContainer>

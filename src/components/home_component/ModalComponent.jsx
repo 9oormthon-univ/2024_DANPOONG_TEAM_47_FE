@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import RatingStar from "./RatingStar";
 import Icons from "../../asset/Icons";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -46,6 +46,7 @@ const HeaderLeft = styled.div`
 `;
 
 const ChatIcon = styled.div`
+  cursor: pointer;
   padding-top: 2px;
   > svg {
     fill: black;
@@ -128,6 +129,14 @@ const BottomSheet = ({ isOpen, marker }) => {
     navigate(`${marker.id}/${buttonType}`, { replace: true });
   };
 
+  const handleChatClick = () => {
+    navigate(`/chat/${marker.id}`, {
+      state: {
+        parkName: marker.name,
+      },
+    });
+  };
+
   return (
     <ModalContainer isVisible={isVisible}>
       <ModalContent>
@@ -137,7 +146,7 @@ const BottomSheet = ({ isOpen, marker }) => {
             <p>{marker.address}</p>
             <RatingStar rating={marker.rating} />
           </HeaderLeft>
-          <ChatIcon>
+          <ChatIcon onClick={handleChatClick}>
             <Icons.Chat />
           </ChatIcon>
         </ModalHeader>
