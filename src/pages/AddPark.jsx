@@ -27,9 +27,7 @@ const InputItem = styled.div`
 
 const Label = styled.label``;
 
-const Input = styled.input`
-  type
-`;
+const Input = styled.input``;
 
 const AddPark = () => {
   return (
