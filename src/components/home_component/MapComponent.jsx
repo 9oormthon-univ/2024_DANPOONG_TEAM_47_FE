@@ -5,7 +5,12 @@ import styled from "styled-components";
 import ModalComponent from "./ModalComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { selectedMarkerState, isModalOpenState } from "../../recoil/mapState";
+import {
+  selectedMarkerState,
+  isModalOpenState,
+  mapCenterState,
+} from "../../recoil/mapState";
+import useUserLocation from "../../hooks/useUserLocation";
 
 // 오버레이 콘텐츠 스타일
 const OverlayContent = styled.div`
@@ -28,6 +33,8 @@ const OverlayContent = styled.div`
 const MapComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { userLocation, error } = useUserLocation(); // Custom Hook의 사용자 위치
+  const [mapCenter, setMapCenter] = useRecoilState(mapCenterState);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] =
     useRecoilState(selectedMarkerState);
@@ -113,6 +120,12 @@ const MapComponent = () => {
     setMarkers(dummyMarkers);
   }, []);
 
+  useEffect(() => {
+    if (!error) {
+      setMapCenter(userLocation); // 사용자의 위치로 중심 좌표 업데이트
+    }
+  }, [userLocation, error]);
+
   // 마커 클릭 핸들러
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker);
@@ -134,7 +147,7 @@ const MapComponent = () => {
 
   return (
     <Map
-      center={{ lat: 33.5563, lng: 126.79581 }}
+      center={mapCenter}
       style={{ width: "100%", height: "100%", position: "relative", zIndex: 1 }}
       disableClickZoom={true} // 클릭 시 줌 방지
       onClick={handleMapClick}

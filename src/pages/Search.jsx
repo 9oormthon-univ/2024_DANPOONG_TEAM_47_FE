@@ -3,8 +3,9 @@ import MapComponent from "../components/home_component/MapComponent";
 import Icons from "../asset/Icons";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { selectedMarkerState, isModalOpenState } from "../recoil/mapState";
+import { mapCenterState } from "../recoil/mapState"; // 지도 중심 상태 추가
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -63,16 +64,17 @@ const Back = styled.div`
 
 const Search = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const [selectedMarker, setSelectedMarker] =
     useRecoilState(selectedMarkerState);
+  const [mapCenter, setMapCenter] = useRecoilState(mapCenterState); // 지도 중심 상태
   const inputRef = useRef(null);
 
   // 페이지 진입 시 Recoil 상태 초기화 및 Input Focus
   useEffect(() => {
     setIsModalOpen(false);
     setSelectedMarker(null);
-    // Input에 자동으로 커서 Focus
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -82,6 +84,25 @@ const Search = () => {
     setIsModalOpen(false);
     setSelectedMarker(null);
     navigate(-1);
+  };
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+
+    // Kakao API를 통해 주소 검색
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    geocoder.addressSearch(searchQuery, (result, status) => {
+      if (status === window.kakao.maps.services.Status.OK) {
+        const newCenter = {
+          lat: parseFloat(result[0].y),
+          lng: parseFloat(result[0].x),
+        };
+
+        // 지도 중심을 새 좌표로 이동
+        setMapCenter(newCenter);
+      } else {
+      }
+    });
   };
 
   return (
@@ -94,6 +115,9 @@ const Search = () => {
           ref={inputRef}
           type="text"
           placeholder="주소 혹은 장소를 입력해주세요."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색
         />
       </SearchHeader>
       <MapComponent />

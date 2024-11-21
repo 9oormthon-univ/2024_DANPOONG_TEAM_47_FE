@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../components/main_component/Header";
+import HeaderWithBack from "../components/main_component/HeaderWithBack";
 import { useLocation } from "react-router-dom";
 
 const ChatPageContainer = styled.div`
@@ -12,7 +12,7 @@ const ChatPage = () => {
   const location = useLocation();
   return (
     <ChatPageContainer>
-      <Header title={location.state?.parkName} />
+      <HeaderWithBack title={location.state?.parkName} />
     </ChatPageContainer>
   );
 };
