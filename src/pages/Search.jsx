@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { useEffect, useRef, useState } from "react";
 import { selectedMarkerState, isModalOpenState } from "../recoil/mapState";
 import { mapCenterState } from "../recoil/mapState"; // 지도 중심 상태 추가
+import _ from "lodash";
 
 const SearchContainer = styled.div`
   width: 100%;
@@ -68,10 +69,33 @@ const Search = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const [selectedMarker, setSelectedMarker] =
     useRecoilState(selectedMarkerState);
-  const [mapCenter, setMapCenter] = useRecoilState(mapCenterState); // 지도 중심 상태
+  const [centerState, setCenterState] = useRecoilState(mapCenterState);
   const inputRef = useRef(null);
 
-  // 페이지 진입 시 Recoil 상태 초기화 및 Input Focus
+  const handleSearch = _.debounce((query) => {
+    if (!query.trim()) return; // 입력이 비어 있으면 실행하지 않음
+
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    geocoder.addressSearch(query, function (result, status) {
+      if (status === window.kakao.maps.services.Status.OK) {
+        const newCenter = {
+          lat: parseFloat(result[0].y),
+          lng: parseFloat(result[0].x),
+        };
+        setCenterState(newCenter); // Recoil 상태 업데이트
+      } else {
+        console.error("검색 결과 없음");
+      }
+    });
+  }, 500); // 디바운싱 적용 (0.5초 지연)
+
+  // 입력 이벤트 핸들러
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value); // 상태 업데이트
+    handleSearch(value); // 디바운싱된 검색 호출
+  };
+
   useEffect(() => {
     setIsModalOpen(false);
     setSelectedMarker(null);
@@ -86,25 +110,6 @@ const Search = () => {
     navigate(-1);
   };
 
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return;
-
-    // Kakao API를 통해 주소 검색
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    geocoder.addressSearch(searchQuery, (result, status) => {
-      if (status === window.kakao.maps.services.Status.OK) {
-        const newCenter = {
-          lat: parseFloat(result[0].y),
-          lng: parseFloat(result[0].x),
-        };
-
-        // 지도 중심을 새 좌표로 이동
-        setMapCenter(newCenter);
-      } else {
-      }
-    });
-  };
-
   return (
     <SearchContainer>
       <SearchHeader>
@@ -116,8 +121,7 @@ const Search = () => {
           type="text"
           placeholder="주소 혹은 장소를 입력해주세요."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색
+          onChange={handleInputChange}
         />
       </SearchHeader>
       <MapComponent />

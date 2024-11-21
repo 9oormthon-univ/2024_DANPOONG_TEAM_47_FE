@@ -32,6 +32,7 @@ const AddParkButton = styled.div`
   border-radius: 8px;
   font-size: clamp(8px, 2vw, 12px);
   background-color: #5874e9;
+  cursor: pointer;
 `;
 
 const ParkList = styled.div``;
