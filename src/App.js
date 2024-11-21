@@ -14,6 +14,7 @@ import ReviewModal from "./components/home_component/ReviewModal";
 import InfoModal from "./components/home_component/InfoModal";
 import ProtectedRoute from "./components/login_component/ProtectedRoute";
 import ReservePage from "./pages/ReservePage";
+import MyPark from "./pages/MyPark";
 
 const router = createBrowserRouter([
   // Main 페이지에서 공통부분 처리하고, outlet으로 화면 부분 구현.
@@ -99,6 +100,11 @@ const router = createBrowserRouter([
             service="예약"
           />
         ),
+      },
+      // "/parks" 내 공유주차장 페이지
+      {
+        path: "parks",
+        element: <MyPark />,
       },
       // "/parks/new" 주차장 등록 페이지.
       {

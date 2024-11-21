@@ -3,6 +3,7 @@ import Icons from "../../asset/Icons";
 import { useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.div`
+  position: relative;
   width: 100%;
   padding: 50px 5% 8px 5%;
   background-color: white;
@@ -18,6 +19,20 @@ const HeaderContainer = styled.div`
   }
 `;
 
+const Back = styled.div`
+  position: absolute;
+  left: 5%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  svg {
+    height: 100%;
+    width: 2vw;
+    min-width: 7px;
+    max-width: 9px;
+  }
+`;
+
 const Header = ({ title }) => {
   const navigate = useNavigate();
   const handleBack = () => {
@@ -25,6 +40,9 @@ const Header = ({ title }) => {
   };
   return (
     <HeaderContainer>
+      <Back onClick={handleBack}>
+        <Icons.Back />
+      </Back>
       <h1>{title}</h1>
     </HeaderContainer>
   );
