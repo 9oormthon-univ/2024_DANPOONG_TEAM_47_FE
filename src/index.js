@@ -5,11 +5,19 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// QueryClient 인스턴스 생성
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      {" "}
+      {/* QueryClient 인스턴스를 전달 */}
+      <App />
+    </QueryClientProvider>
   </RecoilRoot>
 );
 

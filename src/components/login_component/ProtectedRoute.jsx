@@ -1,6 +1,5 @@
-// ProtectedRoute.jsx
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "../../recoil/authState";
 import styled from "styled-components";
 import Header from "../main_component/Header";
@@ -56,18 +55,15 @@ const LoginButton = styled.div`
 `;
 
 const ProtectedRoute = ({ element, pageName, service }) => {
+  const setAuth = useSetRecoilState(authState);
   const auth = useRecoilValue(authState);
 
-  const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-  const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-
   const handleLogin = () => {
-    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
-
-    window.location.href = kakaoAuthURL;
+    const loginUrl = "http://15.165.207.232:8080/api/kongju/login"; // 백엔드가 제공한 URL
+    window.location.href = loginUrl; // 브라우저에서 URL로 이동
   };
 
-  // 인증 안된 경우 로그인 폼 보여주기.
+  // 인증되지 않은 경우 로그인 화면 표시
   if (!auth.isAuthenticated) {
     return (
       <ProtectedContainer>
@@ -85,7 +81,7 @@ const ProtectedRoute = ({ element, pageName, service }) => {
     );
   }
 
-  // 인증된 경우 이전 페이지 렌더링
+  // 인증된 경우 리턴할 요소 표시
   return element;
 };
 

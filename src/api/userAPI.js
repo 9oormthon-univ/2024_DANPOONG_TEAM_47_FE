@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
-export const fetchUser = async (userId) => {
-  const response = await axiosInstance.get(`/users/${userId}`);
+export const login = async () => {
+  const response = await axiosInstance.get(`/api/kongju/login`);
   return response.data;
 };
 

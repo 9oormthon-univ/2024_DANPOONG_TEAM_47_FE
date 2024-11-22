@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import HeaderWithBack from "../components/main_component/HeaderWithBack";
 import { type } from "@testing-library/user-event/dist/type";
+import { useState } from "react";
 
 const AddParkContainer = styled.div`
   width: 100%;
