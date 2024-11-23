@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { isInputModalOpenState } from "../recoil/inputState";
 import InputModalComponent from "../components/addpark_component/InputModalComponent";
 import { getLatLngFromAddress } from "../api/addressAPI";
+import axiosInstance from "../api/axiosInstance";
 
 const AddParkContainer = styled.div`
   width: 100%;
@@ -108,16 +109,6 @@ const AddPark = () => {
     }));
   };
 
-  const handleInputImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage({
-        file: file,
-        preview: URL.createObjectURL(file),
-      });
-    }
-  };
-
   const handleAddAvailability = (newAvailability) => {
     setAvailabilities((prev) => [...prev, newAvailability]);
     setIsModalOpen(false);
@@ -136,14 +127,56 @@ const AddPark = () => {
     }
   };
 
-  const handleAddButton = () => {
-    const parkData = {
-      ...parkInfo,
-      availabilities,
-      image: image ? { name: image.file.name, type: image.file.type } : null,
+  const handleInputImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // FileReader를 사용해 Base64로 변환
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(",")[1]; // Base64 데이터 추출
+        setImage({
+          file: file,
+          preview: URL.createObjectURL(file), // 미리보기용 URL
+          base64: base64String, // Base64 데이터
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAddButton = async () => {
+    const requestData = {
+      request: {
+        name: parkInfo.name || "",
+        address: parkInfo.address || "",
+        latitude: parseFloat(parkInfo.latitude) || 0,
+        longitude: parseFloat(parkInfo.longitude) || 0,
+        description: parkInfo.description || "",
+        rate: parseFloat(parkInfo.rate) || 0,
+        availabilities: availabilities.map((item) => ({
+          day: item.day || "",
+          start_time: item.start_time || "",
+          end_time: item.end_time || "",
+        })),
+        car_capacity: parseInt(parkInfo.car_capacity, 10) || 0,
+        pm_capacity: parseInt(parkInfo.pm_capacity, 10) || 0,
+      },
+      images: image ? [image.base64] : [],
     };
 
-    console.log("주차장 등록 데이터:", JSON.stringify(parkData, null, 2));
+    console.log("주차장 등록 데이터:", JSON.stringify(requestData, null, 2)); // 확인용 로그
+
+    try {
+      const response = await axiosInstance.post(
+        "/api/kongju/parking/register",
+        requestData
+      ); // POST 요청
+      console.log("등록 성공:", response.data); // 성공 시 응답 데이터
+      alert("주차장이 성공적으로 등록되었습니다!"); // 성공 메시지
+    } catch (error) {
+      console.error("등록 실패:", error.response || error.message); // 실패 시 에러 처리
+      alert("주차장 등록 중 문제가 발생했습니다. 다시 시도해주세요."); // 실패 메시지
+    }
   };
 
   return (
