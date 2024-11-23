@@ -29,6 +29,10 @@ const ReviewHeader = styled.div`
   }
 `;
 
+const Noreview = styled.p`
+  font-size: clamp(12px, 3vw, 14px);
+`;
+
 const ReviewModal = () => {
   const { marker } = useOutletContext();
   return (
@@ -44,7 +48,7 @@ const ReviewModal = () => {
           </ReviewItem>
         ))
       ) : (
-        <p>리뷰가 없습니다.</p>
+        <Noreview>리뷰가 없습니다.</Noreview>
       )}
     </ReviewContainer>
   );
