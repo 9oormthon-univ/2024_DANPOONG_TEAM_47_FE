@@ -170,7 +170,7 @@ const AddPark = () => {
 
     try {
       const response = await axiosInstance.post(
-        "/api/kongju/parking/register",
+        "/parking/register",
         requestData
       ); // POST 요청
       console.log("등록 성공:", response.data); // 성공 시 응답 데이터
