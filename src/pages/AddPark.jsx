@@ -3,12 +3,13 @@ import styled from "styled-components";
 import HeaderWithBack from "../components/main_component/HeaderWithBack";
 import Icons from "../asset/Icons";
 import LongButton from "../components/common/LongButton";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { isInputModalOpenState } from "../recoil/inputState";
 import InputModalComponent from "../components/addpark_component/InputModalComponent";
 import { getLatLngFromAddress } from "../api/addressAPI";
 import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { authState } from "../recoil/authState";
 
 const AddParkContainer = styled.div`
   width: 100%;
@@ -88,6 +89,7 @@ const InputTextArea = styled.textarea`
 
 const AddPark = () => {
   const navigate = useNavigate();
+  const auth = useRecoilValue(authState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(isInputModalOpenState);
 
   const [parkInfo, setParkInfo] = useState({
@@ -147,6 +149,7 @@ const AddPark = () => {
   };
 
   const handleAddButton = async () => {
+    const userId = auth?.user?.id;
     const formData = new FormData();
 
     const requestData = {
@@ -188,7 +191,7 @@ const AddPark = () => {
 
     try {
       const response = await axiosInstance.post(
-        "/api/kongju/parking/register",
+        `/api/kongju/parking/register?memberId=${userId}`,
         formData,
         {
           headers: {
