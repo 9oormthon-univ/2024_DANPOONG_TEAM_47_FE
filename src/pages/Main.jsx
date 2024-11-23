@@ -42,10 +42,10 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    // 홈 화면 진입 시 세션 확인
-    checkSessionFromCookie();
-  }, []);
+  // useEffect(() => {
+  //   // 홈 화면 진입 시 세션 확인
+  //   checkSessionFromCookie();
+  // }, []);
 
   return (
     <MainContainer>
