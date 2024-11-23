@@ -29,7 +29,7 @@ const ReserveModal = () => {
   const navigate = useNavigate();
 
   const handleReserveButton = () => {
-    navigate(`/parks/reserve/${marker.id}`);
+    navigate(`/parks/reserve/${marker.id}`, { state: { marker } });
   };
   return (
     <ReserveContainer>

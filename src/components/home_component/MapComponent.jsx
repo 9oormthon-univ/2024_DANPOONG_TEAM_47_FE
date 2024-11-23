@@ -49,7 +49,7 @@ const MapComponent = () => {
       );
       setMapCenter({ lat: 37.5665, lng: 126.978 }); // 기본값: 서울
     }
-  }, [userLocation, error]);
+  }, [userLocation]);
 
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker); // 선택된 마커 설정

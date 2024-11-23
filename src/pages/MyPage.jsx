@@ -37,7 +37,7 @@ const UserProfil = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: clamp(12px, 3.5vw, 16px);
 
   > p {
     font-size: clamp(15px, 4vw, 20px);
@@ -46,8 +46,8 @@ const UserProfil = styled.div`
 `;
 
 const ProfilImage = styled.div`
-  width: clamp(45px, 13vw, 55px);
-  height: clamp(45px, 13vw, 55px);
+  width: clamp(45px, 13vw, 50px);
+  height: clamp(45px, 13vw, 50px);
 
   background-color: #d9d9d9;
   border-radius: 50%;
@@ -77,7 +77,6 @@ const NavContainer = styled.div`
 `;
 
 const NavSection = styled.div`
-  cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -85,13 +84,13 @@ const NavSection = styled.div`
   gap: clamp(6px, 3vw, 16px);
 
   > svg {
-    width: clamp(18px, 5vw, 24px);
-    height: clamp(18px, 5vw, 24px);
+    width: clamp(18px, 5vw, 20px);
+    height: clamp(18px, 5vw, 20px);
   }
 `;
 
 const NavName = styled.div`
-  font-size: clamp(15px, 4vw, 20px);
+  font-size: clamp(15px, 4vw, 18px);
   flex: 1;
   display: flex;
   justify-content: space-between;
@@ -99,7 +98,7 @@ const NavName = styled.div`
 
   > svg {
     height: 100%;
-    width: clamp(5px, 1.9vw, 9px);
+    width: clamp(5px, 1.9vw, 7px);
   }
 `;
 
@@ -163,6 +162,7 @@ const MyPage = () => {
             onClick={() => {
               handleNav("/parks");
             }}
+            style={{ cursor: "pointer" }}
           >
             <Icons.Park />
             <NavName>

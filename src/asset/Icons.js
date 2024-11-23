@@ -13,6 +13,7 @@ import { ReactComponent as Review } from "./icons/Review.svg";
 import { ReactComponent as Check } from "./icons/Check.svg";
 import { ReactComponent as Arrow } from "./icons/Arrow.svg";
 import { ReactComponent as Image } from "./icons/Image.svg";
+import { ReactComponent as Alert } from "./icons/Alert.svg";
 
 const Icons = {
   Home: Home,
@@ -30,6 +31,7 @@ const Icons = {
   Check: Check,
   Arrow: Arrow,
   Image: Image,
+  Alert: Alert,
 };
 
 export default Icons;

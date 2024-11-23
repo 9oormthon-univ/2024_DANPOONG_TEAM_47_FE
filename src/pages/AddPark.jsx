@@ -73,6 +73,18 @@ const InputText = styled.input`
   &::placeholder {
     color: #a8a8a8;
   }
+
+  /* hover 상태 */
+  &:hover::-webkit-inner-spin-button,
+  &:hover::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+
+  /* focus 상태 */
+  &:focus::-webkit-inner-spin-button,
+  &:focus::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
 const InputTextArea = styled.textarea`
@@ -221,6 +233,7 @@ const AddPark = () => {
             id="file-upload"
             accept="image/*"
             onChange={handleInputImage}
+            required
           />
           <UploadLabel
             htmlFor="file-upload"
@@ -238,6 +251,7 @@ const AddPark = () => {
             placeholder="주차장의 이름을 입력해주세요."
             value={parkInfo.name}
             onChange={(e) => handleChange("name", e.target.value)}
+            required
           />
         </InputItem>
 
@@ -250,6 +264,7 @@ const AddPark = () => {
             value={parkInfo.address}
             onChange={(e) => handleChange("address", e.target.value)}
             onBlur={handleAddressBlur}
+            required
           />
         </InputItem>
 
@@ -261,6 +276,7 @@ const AddPark = () => {
             placeholder="주차장의 설명을 작성해주세요."
             value={parkInfo.description}
             onChange={(e) => handleChange("description", e.target.value)}
+            required
           />
         </InputItem>
 
@@ -274,6 +290,7 @@ const AddPark = () => {
             value={availabilities
               .map((a) => `${a.day} / ${a.start_time}~${a.end_time}`)
               .join("\n")}
+            required
           />
         </InputItem>
 
@@ -285,6 +302,7 @@ const AddPark = () => {
             placeholder="정보를 입력해주세요."
             value={parkInfo.car_capacity}
             onChange={(e) => handleChange("car_capacity", e.target.value)}
+            required
           />
         </InputItem>
 
@@ -296,6 +314,7 @@ const AddPark = () => {
             placeholder="정보를 입력해주세요."
             value={parkInfo.pm_capacity}
             onChange={(e) => handleChange("pm_capacity", e.target.value)}
+            required
           />
         </InputItem>
 
@@ -307,6 +326,7 @@ const AddPark = () => {
             placeholder="정보를 입력해주세요."
             value={parkInfo.rate}
             onChange={(e) => handleChange("rate", e.target.value)}
+            required
           />
         </InputItem>
 

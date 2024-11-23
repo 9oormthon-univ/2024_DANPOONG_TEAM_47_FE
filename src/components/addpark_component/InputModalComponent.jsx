@@ -5,11 +5,11 @@ import { isInputModalOpenState } from "../../recoil/inputState";
 import LongButton from "../common/LongButton";
 
 const Overlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: rgba(63, 63, 63, 0.58); /* 어두운 배경 */
   z-index: 6;
   display: ${(props) => (props.isVisible ? "block" : "none")};

@@ -27,7 +27,7 @@ const useParkingData = () => {
       lng: item.parking.longitude,
       name: item.parking.name,
       address: item.parking.address,
-      rating: 4.0,
+      rating: 4.5,
       price: item.parking.rate,
       car_capacity: item.parking.carCapacity,
       pm_capacity: item.parking.pmCapacity,
