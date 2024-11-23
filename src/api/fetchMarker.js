@@ -47,7 +47,7 @@ const useParkingData = () => {
             params: {
               latitude: debouncedCenter.lat,
               longitude: debouncedCenter.lng,
-              radius: 0.5, // 반경 500m
+              radius: 5, // 반경 500m
             },
           }
         );
