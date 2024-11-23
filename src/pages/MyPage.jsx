@@ -2,6 +2,10 @@ import styled from "styled-components";
 import Header from "../components/main_component/Header";
 import { useLocation, useNavigate } from "react-router-dom";
 import Icons from "../asset/Icons";
+import { useEffect, useState } from "react";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import { authState } from "../recoil/authState";
+import axiosInstance from "../api/axiosInstance";
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -52,9 +56,10 @@ const ProfilImage = styled.div`
   justify-content: center;
   align-items: center;
 
-  > svg {
-    width: 50%;
-    height: 50%;
+  > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
   }
 `;
 
@@ -100,9 +105,39 @@ const NavName = styled.div`
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const auth = useRecoilValue(authState);
+  const resetAuthState = useResetRecoilState(authState);
+  const userId = auth?.user?.id;
+  const [profile, setProfile] = useState({
+    nickname: "",
+    profileImage: "",
+  });
   const handleNav = (address) => {
     navigate(address);
   };
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/kongju/member/profile?memberId=${userId}`
+      );
+      setProfile(response.data); // 서버에서 받은 데이터를 상태에 저장
+    } catch (error) {
+      console.error("프로필 정보를 가져오는 데 실패했습니다:", error);
+      alert("프로필 정보를 불러오지 못했습니다.");
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchProfile();
+    }
+  }, []);
+
+  const handleLogout = () => {
+    resetAuthState();
+  };
+
   return (
     <MyPageContainer>
       <Header title="마이페이지" />
@@ -110,11 +145,11 @@ const MyPage = () => {
         <UserContainer>
           <UserProfil>
             <ProfilImage>
-              <Icons.User fill="black" />
+              <img src={profile.profileImage} alt="" />
             </ProfilImage>
-            <p>김민지</p>
+            <p>{profile.nickname}</p>
           </UserProfil>
-          <Logout>로그아웃</Logout>
+          <Logout onClick={handleLogout}>로그아웃</Logout>
         </UserContainer>
         <NavContainer>
           <NavSection>

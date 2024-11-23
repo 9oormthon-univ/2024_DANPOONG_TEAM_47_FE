@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import BottomNav from "../components/main_component/BottomNav";
 import styled from "styled-components";
 import Header from "../components/main_component/Header";
@@ -20,32 +20,29 @@ const Main = () => {
   const location = useLocation();
   const headerTitle = location.state?.headerTitle;
 
-  const setAuth = useSetRecoilState(authState);
+  const navigate = useNavigate();
+  const setAuthState = useSetRecoilState(authState);
 
-  const checkSessionFromCookie = () => {
-    // 브라우저 쿠키에서 JSESSIONID 확인
-    const cookies = document.cookie;
-    const sessionExists = cookies.includes("JSESSIONID"); // JSESSIONID 쿠키 확인
+  useEffect(() => {
+    // URL에서 쿼리 파라미터 추출
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
 
-    if (sessionExists) {
-      // 로그인 상태로 변경
-      setAuth({
+    if (id) {
+      // 상태 업데이트
+      setAuthState((prev) => ({
+        ...prev,
+        user: {
+          ...prev.user,
+          id, // id 값 저장
+        },
         isAuthenticated: true,
-        user: null, // 사용자 정보를 백엔드에서 추가로 요청할 수도 있음
-      });
-    } else {
-      // 로그아웃 상태로 변경
-      setAuth({
-        isAuthenticated: false,
-        user: null,
-      });
-    }
-  };
+      }));
 
-  // useEffect(() => {
-  //   // 홈 화면 진입 시 세션 확인
-  //   checkSessionFromCookie();
-  // }, []);
+      // 쿼리 파라미터 제거 (리다이렉트)
+      navigate("/", { replace: true });
+    }
+  }, [location, navigate, setAuthState]);
 
   return (
     <MainContainer>

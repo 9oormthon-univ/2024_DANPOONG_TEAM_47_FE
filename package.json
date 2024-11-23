@@ -53,6 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://15.165.207.232:8080"
+  }
 }

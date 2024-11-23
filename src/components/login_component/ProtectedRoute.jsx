@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "../../recoil/authState";
 import styled from "styled-components";
 import Header from "../main_component/Header";
 import Icons from "../../asset/Icons";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ProtectedContainer = styled.div`
   width: 100%;
@@ -57,6 +59,7 @@ const LoginButton = styled.div`
 const ProtectedRoute = ({ element, pageName, service }) => {
   const setAuth = useSetRecoilState(authState);
   const auth = useRecoilValue(authState);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     const loginUrl = "http://15.165.207.232:8080/api/kongju/login"; // 백엔드가 제공한 URL

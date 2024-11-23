@@ -147,14 +147,16 @@ const AddPark = () => {
   };
 
   const handleAddButton = async () => {
+    const formData = new FormData();
+
     const requestData = {
       request: {
         name: parkInfo.name || "",
         address: parkInfo.address || "",
-        latitude: parseFloat(parkInfo.latitude) || 0,
-        longitude: parseFloat(parkInfo.longitude) || 0,
+        latitude: Number(parkInfo.latitude) || 0,
+        longitude: Number(parkInfo.longitude) || 0,
         description: parkInfo.description || "",
-        rate: parseFloat(parkInfo.rate) || 0,
+        rate: parseInt(parkInfo.rate, 10) || 0,
         availabilities: availabilities.map((item) => ({
           day: item.day || "",
           start_time: item.start_time || "",
@@ -163,21 +165,44 @@ const AddPark = () => {
         car_capacity: parseInt(parkInfo.car_capacity, 10) || 0,
         pm_capacity: parseInt(parkInfo.pm_capacity, 10) || 0,
       },
-      images: image ? [image.base64] : [],
     };
 
-    console.log("주차장 등록 데이터:", JSON.stringify(requestData, null, 2)); // 확인용 로그
+    // `request` JSON 데이터를 Blob 형태로 추가
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(requestData.request)], {
+        type: "application/json",
+      })
+    );
+
+    // 이미지 파일 추가 (파일 자체 전송)
+    if (image && image.file) {
+      formData.append("images", image.file); // 파일 자체를 FormData에 추가
+    }
+
+    // 데이터 확인용 로그
+    console.log("FormData 내용:");
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
 
     try {
       const response = await axiosInstance.post(
-        "/parking/register",
-        requestData
-      ); // POST 요청
+        "/api/kongju/parking/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // FormData 전송 시 필요한 헤더
+          },
+        }
+      );
+
       console.log("등록 성공:", response.data); // 성공 시 응답 데이터
-      navigate(-1);
+      alert("주차장 등록이 완료되었습니다!");
+      navigate(-1); // 이전 페이지로 이동
     } catch (error) {
       console.error("등록 실패:", error.response || error.message); // 실패 시 에러 처리
-      alert("주차장 등록 중 문제가 발생했습니다. 다시 시도해주세요."); // 실패 메시지
+      alert("주차장 등록 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
