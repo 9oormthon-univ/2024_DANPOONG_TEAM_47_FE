@@ -8,6 +8,7 @@ import { isInputModalOpenState } from "../recoil/inputState";
 import InputModalComponent from "../components/addpark_component/InputModalComponent";
 import { getLatLngFromAddress } from "../api/addressAPI";
 import axiosInstance from "../api/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const AddParkContainer = styled.div`
   width: 100%;
@@ -86,6 +87,7 @@ const InputTextArea = styled.textarea`
 `;
 
 const AddPark = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useRecoilState(isInputModalOpenState);
 
   const [parkInfo, setParkInfo] = useState({
@@ -172,7 +174,7 @@ const AddPark = () => {
         requestData
       ); // POST 요청
       console.log("등록 성공:", response.data); // 성공 시 응답 데이터
-      alert("주차장이 성공적으로 등록되었습니다!"); // 성공 메시지
+      navigate(-1);
     } catch (error) {
       console.error("등록 실패:", error.response || error.message); // 실패 시 에러 처리
       alert("주차장 등록 중 문제가 발생했습니다. 다시 시도해주세요."); // 실패 메시지
